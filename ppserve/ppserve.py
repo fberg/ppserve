@@ -1,5 +1,25 @@
 #!/usr/bin/env python3
 
+import argparse
+parser = argparse.ArgumentParser(description="Serve quotes and historic prices for use with PortfolioPerformance")
+parser.add_argument(
+    '-c-', '--default-currency', dest='default_currency', default='EUR',
+    help='Default currency used for conversion.'
+)
+parser.add_argument(
+    '--hostname', dest='hostname', default='localhost',
+    help='Host name or address to bind to.'
+)
+parser.add_argument(
+    '--port', dest='port', type=int, default=9444,
+    help='Port number to use.'
+)
+parser.add_argument(
+    '--log-level', dest='log_level', choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'], default='INFO',
+    help='Log verbosity.'
+)
+args = parser.parse_args()
+
 from datetime import date, timedelta
 from time import sleep
 from pathlib import Path
@@ -18,6 +38,8 @@ portfolio_performance_template = SimpleTemplate(
 portfolio_performance_historical_template = SimpleTemplate(
     open(template_path/"portfolio_performance_historical.html", 'r')
 )
+
+my_bonds = {}
 
 # Serve quote tables for Portfolio Performance
 @route('/<mode>/<symbol>/<clean_or_dirty>/<currency>')
@@ -101,26 +123,6 @@ def update_sec_prices(sec):
         sec.write_quotes()
 
 def main():
-    import argparse
-    parser = argparse.ArgumentParser(description="Serve quotes and historic prices for use with PortfolioPerformance")
-    parser.add_argument(
-        '-c-', '--default-currency', dest='default_currency', default='EUR',
-        help='Default currency used for conversion.'
-    )
-    parser.add_argument(
-        '--hostname', dest='hostname', default='localhost',
-        help='Host name or address to bind to.'
-    )
-    parser.add_argument(
-        '--port', dest='port', type=int, default=9444,
-        help='Port number to use.'
-    )
-    parser.add_argument(
-        '--log-level', dest='log_level', choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'], default='INFO',
-        help='Log verbosity.'
-    )
-    args = parser.parse_args()
-
     import logging
     import coloredlogs
     # logging.basicConfig(format='%(levelname)s: %(name)s: %(message)s', level=getattr(logging, args.log_level))
@@ -128,7 +130,9 @@ def main():
     coloredlogs.install(level=getattr(logging, args.log_level))
 
     logger.info('Loading manually configured securities.')
-    from .my_bonds import my_bonds
+    from .my_bonds import load_my_bonds
+    yaml_file = Path.home()/'.ppserve'/'my_bonds.yaml'
+    my_bonds = load_my_bonds(yaml_file)
 
     try:
         Thread(
