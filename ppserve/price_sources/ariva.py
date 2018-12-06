@@ -9,7 +9,7 @@ from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 
 from .pricesource import PriceSource
-from .securities import *
+from ..securities import *
 
 class ArivaPriceSource(PriceSource):
     def __init__(self, symbol):

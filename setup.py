@@ -9,7 +9,7 @@ setup(name='ppserve',
       packages=[
           'ppserve',
           'ppserve.price_sources',
-          'ppserve.price_sources.securities'
+          'ppserve.securities'
       ],
       scripts=['bin/ppserve'],
       install_requires=[
