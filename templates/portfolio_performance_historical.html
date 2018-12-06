@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Historische Kurse f&uuml;r {{symbol}}</title>
+        <style>
+         table, th, td {
+             border: 1px solid black;
+         }
+        </style>
+    </head>
+    <body>
+        <h1>Historische Kurse f&uuml;r {{symbol}} ({{name}})</h1>
+        <table>
+            <tr>
+                <th>Datum</th>
+                <th>Close</th>
+            </tr>
+            % for d, last in price_history.items():
+            <tr>
+                <td class="date">{{d}}</td>
+                <td class="quote">{{last}}</td>
+            </tr>
+            % end
+        </table>
+        <span>{{note}}</span>
+
+    </body>
+</html>

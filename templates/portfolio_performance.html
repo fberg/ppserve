@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Kurse f&uuml;r {{symbol}}</title>
+        <style>
+         table, th, td {
+             border: 1px solid black;
+         }
+        </style>
+    </head>
+    <body>
+        <h1>Kurse f&uuml;r {{symbol}} ({{name}})</h1>
+        <span>Geladen von <a href="{{url}}">{{url}}</a>.</span>
+        <table>
+            <tr>
+                <th>Datum</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+            </tr>
+            <tr>
+                <td class="date">{{date}}</td>
+                <td class="high">{{high}}</td>
+                <td class="low">{{low}}</td>
+                <td class="quote">{{last}}</td>
+            </tr>
+        </table>
+        <span>{{note}}</span>
+    </body>
+</html>
