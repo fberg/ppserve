@@ -12,7 +12,7 @@ The currency and `clean_or_dirty` may be omitted (currency defaults to the argum
 
 ## Configuration
 
-A file `my_bonds.yaml` in the script directory can be used to preconfigure bonds (e.g. if some of the data is not available from the price source).
+A file `my_bonds.yaml` in `~/.ppserve/` can be used to preconfigure bonds (e.g. if some of the data is not available from the price source).
 This is mostly useful for providing missing information needed for accrued interest computation.
 The format is as follows:
 
@@ -26,6 +26,12 @@ The format is as follows:
   maturity: <date of maturity>
 ...
 ```
+
+## Installation
+
+Installation is done by running `python setup.py install --user` (skip `--user` to install system-wide).
+This installs a binary called `ppserve`.
+Check `ppserve -h` to see command line options.
 
 ## Dependencies
 

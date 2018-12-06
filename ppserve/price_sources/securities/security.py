@@ -91,7 +91,7 @@ class Security:
 
     @property
     def _quotes_path(self):
-        return Path(__file__).parent/'quotes'/(self.symbol + '.quotes')
+        return Path.home()/'.ppserve'/'quotes'/(self.symbol + '.quotes')
 
     def write_quotes(self, path=None):
         if path is None:

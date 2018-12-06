@@ -28,8 +28,8 @@ import collections
 from bottle import route, run, SimpleTemplate, abort, redirect, template
 from threading import Thread
 
-from price_sources import ArivaPriceSource
-from price_sources.securities import Bond
+from .price_sources import ArivaPriceSource
+from .price_sources.securities import Bond
 
 import logging
 import coloredlogs
@@ -38,7 +38,7 @@ logger = logging.getLogger('Main')
 coloredlogs.install(level=getattr(logging, args.log_level))
 
 logger.info('Loading manually configured securities.')
-from my_bonds import my_bonds
+from .my_bonds import my_bonds
 
 template_path = Path(__file__).parent/"templates"
 portfolio_performance_template = SimpleTemplate(
@@ -129,8 +129,7 @@ def update_sec_prices(sec):
         sec.update_historic(start_date, date.today())
         sec.write_quotes()
 
-if __name__ == "__main__":
-
+def main():
     try:
         Thread(
             target=run, name="price server",
@@ -154,3 +153,6 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         sys.exit()
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,5 @@
-from datetime import date
-from price_sources.securities import Bond
-from price_sources import ArivaPriceSource
+from .price_sources.securities import Bond
+from .price_sources import ArivaPriceSource
 
 import logging
 logger = logging.getLogger('my_bonds')
@@ -8,11 +7,13 @@ logger = logging.getLogger('my_bonds')
 import yaml
 from pathlib import Path
 
-script_path = Path(__file__).parent/'my_bonds.yaml'
+yaml_file = Path.home()/'.ppserve'/'my_bonds.yaml'
 
 try:
-    data = yaml.load(open(script_path, 'r').read())
+    logger.info('Found configuration in {}'.format(str(yaml_file)))
+    data = yaml.load(open(yaml_file, 'r').read())
 except FileNotFoundError:
+    logger.info('No my_bonds.yaml found.')
     data = {}
 
 # Sanitize symbols; they may be of integer type if entered without quotes
