@@ -29,14 +29,12 @@ class Bond(Security):
             target_date = date.today()
 
         if target_date == date.today and self._accrued_interest_fetched is not None:
-                return self._accrued_interest_fetched
+            return self._accrued_interest_fetched
 
         if (self.maturity is not None) and (self.maturity < target_date):
             return 0
 
         if (self.interest_dates is not None) and (self.interest_rate is not None):
-            # interest_dates = [(int(d.split('.')[0]), int(d.split('.')[1])) for d in self.interest_dates]
-
             # find the date of the next interest payment
             next_date = None
 

@@ -123,6 +123,8 @@ def update_sec_prices(sec):
         sec.write_quotes()
 
 def main():
+    global my_bonds
+
     import logging
     import coloredlogs
     # logging.basicConfig(format='%(levelname)s: %(name)s: %(message)s', level=getattr(logging, args.log_level))
@@ -132,7 +134,12 @@ def main():
     logger.info('Loading manually configured securities.')
     from .my_bonds import load_my_bonds
     yaml_file = Path.home()/'.ppserve'/'my_bonds.yaml'
-    my_bonds = load_my_bonds(yaml_file)
+
+    try:
+        my_bonds = load_my_bonds(yaml_file)
+        logger.info('Found configuration in {}'.format(str(yaml_file)))
+    except FileNotFoundError:
+        logger.info('No my_bonds.yaml found.')
 
     try:
         Thread(
@@ -157,6 +164,3 @@ def main():
 
     except KeyboardInterrupt:
         sys.exit()
-
-if __name__ == "__main__":
-    main()
