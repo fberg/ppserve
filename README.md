@@ -29,7 +29,7 @@ The format is as follows:
 
 ## Dependencies
 
-[`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/) for scraping, [`bottle`](http://bottlepy.org/docs/dev/) for serving HTML, [`coloredlogs`](https://pypi.org/project/coloredlogs/) for fancy output.
+[`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/) for scraping, [`bottle`](http://bottlepy.org/docs/dev/) for serving HTML, [`coloredlogs`](https://pypi.org/project/coloredlogs/) for fancy output, [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/) for currency conversion.
 
 ## Disclaimer
 
