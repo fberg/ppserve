@@ -14,7 +14,7 @@ The currency and `clean_or_dirty` may be omitted (currency defaults to the argum
 
 A file `my_bonds.yaml` in `~/.ppserve/` can be used to preconfigure bonds (e.g. if some of the data is not available from the price source).
 This is mostly useful for providing missing information needed for accrued interest computation.
-The format is as follows:
+The syntax is as follows:
 
 ```yaml
 ...
@@ -26,6 +26,7 @@ The format is as follows:
   maturity: <date of maturity>
 ...
 ```
+Date and list formatting is standard YAML.
 
 ## Installation
 
@@ -35,7 +36,7 @@ Check `ppserve -h` to see command line options.
 
 ## Dependencies
 
-[`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/) for scraping, [`bottle`](http://bottlepy.org/docs/dev/) for serving HTML, [`coloredlogs`](https://pypi.org/project/coloredlogs/) for fancy output, [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/) for currency conversion.
+[`BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/) for scraping, [`bottle`](http://bottlepy.org/docs/dev/) for serving HTML, [`coloredlogs`](https://pypi.org/project/coloredlogs/) for fancy output, [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/) for currency conversion, and [`PyYAML`](https://pyyaml.org/) for config file parsing.
 
 ## Disclaimer
 
