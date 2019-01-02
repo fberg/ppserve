@@ -29,7 +29,7 @@ from bottle import route, run, SimpleTemplate, abort, redirect, template
 from threading import Thread
 
 from .price_sources import ArivaPriceSource
-from .price_sources.securities import Bond
+from .securities import Bond
 
 template_path = Path(__file__).parent/"templates"
 portfolio_performance_template = SimpleTemplate(
