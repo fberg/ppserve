@@ -11,20 +11,27 @@ class PriceSource:
         # if not hasattr(self, 'name'): self.name = None
         self.symbol = symbol
         self.sec_type = None
-        self._url = None
+        self._url_or_request = None
 
         self.logger = logging.getLogger('{}.{}'.format(self.name, self.symbol))
 
     @property
-    def url(self):
+    def url_or_request(self):
         # we lazily set the url, since make_url() could contain expensive operations
-        if not self._url:
-            self._url = self.make_url()
-            self.logger.debug('URL is {}'.format(self._url))
-        return self._url
+        if not self._url_or_request:
+            self._url_or_request = self.make_url()
+            self.logger.debug('URL is {}'.format(self._url_or_request))
+        return self._url_or_request
+
+    @property
+    def url(self):
+        if isinstance(self.url_or_request, str):
+            return self.url_or_request
+        else:
+            return self.url_or_request.full_url
 
     def fetch_site(self):
-        html = urllib.request.urlopen(self.url).read().decode('utf-8')
+        html = urllib.request.urlopen(self.url_or_request).read().decode('utf-8')
         return BS(html,"lxml")
 
     def fetch_info(self):

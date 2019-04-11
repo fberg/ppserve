@@ -17,15 +17,19 @@ class ArivaPriceSource(PriceSource):
         PriceSource.__init__(self, symbol)
 
     def make_url(self):
+        # User agent to use for the request. Not sure if it is necessary to pretend to be someone else.
+        headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36'}
+
         try:
             # We need to find out where Ariva redirects us to later build other URLs
-            req = urllib.request.urlopen("http://www.ariva.de/{}".format(self.symbol))
+            req = urllib.request.Request("http://www.ariva.de/{}".format(self.symbol), headers=headers)
+            response = urllib.request.urlopen(req)
         except urllib.error.HTTPError as e:
             self.logger.error('Could not find symbol {} on Ariva.'.format(self.symbol))
             raise e
 
         # Try to find out the security type.
-        soup = BS(req.read().decode('utf-8'), 'lxml')
+        soup = BS(response.read().decode('utf-8'), 'lxml')
         security_type = soup.find('div', class_='verlauf snapshotInfo').find(text=re.compile('Typ:')).string.split(':')[1].strip()
 
         sec_types = {
@@ -50,7 +54,7 @@ class ArivaPriceSource(PriceSource):
 
         # The url contains the exchange to use.
         # We make it depend on the security type.
-        return req.url + '?boerse_id={}'.format(exchange_ids[self.sec_type])
+        return urllib.request.Request(response.url + '?boerse_id={}'.format(exchange_ids[self.sec_type]), headers=headers)
 
     def fetch_info(self):
         self.logger.info('Fetching info using {}.'.format(self.name))
@@ -58,7 +62,7 @@ class ArivaPriceSource(PriceSource):
 
         soup = self.fetch_site()
         info = {}
-        info['url'] = self.url
+        info['url'] = self.url_or_request
 
         def _find_ariva_td(label):
             try:
