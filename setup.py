@@ -15,9 +15,13 @@ setup(name='ppserve',
       install_requires=[
           'PyYAML',
           'bs4',
+          'lxml',
           'coloredlogs',
+          'termcolor',
           'bottle',
-          'CurrencyConverter'
+          'paste',
+          'CurrencyConverter',
+          'python-dateutil'
       ],
       include_package_data=True
 )
